@@ -1,54 +1,84 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hrms_admin_fr/employee/model/employee_state.dart';
+import 'package:hrms_admin_fr/employee/cubit/employee_repository.dart';
+import 'package:hrms_admin_fr/employee/model/employee.dart';
 
-import '../model/employee.dart';
+import '../model/employee_state.dart';
+
 
 class EmployeeCubit extends Cubit<EmployeeState> {
-  EmployeeCubit() : super(EmployeeState()) {
+  final EmployeeRepository repo;
+
+  EmployeeCubit(this.repo) : super(const EmployeeState()) {
     loadEmployees();
   }
 
-  void loadEmployees() {
-    final data = [
-      Employee(
-        id: "EMP001",
-        name: "Praveen",
-        email: "praveen@test.com",
-        phone: "9876543210",
-        role: "Developer",
-        isActive: true,
-      ),
-      Employee(
-        id: "EMP002",
-        name: "Ravi",
-        email: "ravi@test.com",
-        phone: "9123456780",
-        role: "Manager",
-        isActive: false,
-      ),
-    ];
+  ////////////////////////////////////////////////
+  /// LOAD
+  ////////////////////////////////////////////////
+  Future<void> loadEmployees() async {
+    final data = await repo.getEmployees();
 
-    emit(state.copyWith(employees: data, status: EmployeeStatus.success));
+    emit(state.copyWith(
+      employees: data,
+      filteredEmployees: data,
+    ));
   }
 
   ////////////////////////////////////////////////
-  /// UPDATE
+  /// FILTER LOGIC
   ////////////////////////////////////////////////
-  void updateEmployee(Employee updated) {
-    final updatedList = state.employees.map((e) {
-      return e.id == updated.id ? updated : e;
+  void applyFilters({
+    String? role,
+    String? status,
+    String? search,
+  }) {
+    final newRole = role ?? state.roleFilter;
+    final newStatus = status ?? state.statusFilter;
+    final newSearch = search ?? state.search;
+
+    final filtered = state.employees.where((emp) {
+      final matchRole =
+          newRole == "all" || emp.role == newRole;
+
+      final matchStatus =
+          newStatus == "all" || emp.status == newStatus;
+
+      final matchSearch = emp.name
+          .toLowerCase()
+          .contains(newSearch.toLowerCase());
+
+      return matchRole && matchStatus && matchSearch;
     }).toList();
 
-    emit(state.copyWith(employees: updatedList));
+    emit(state.copyWith(
+      filteredEmployees: filtered,
+      roleFilter: newRole,
+      statusFilter: newStatus,
+      search: newSearch,
+    ));
   }
+  Future<void> updateEmployee(Employee emp) async {
+  try {
+    await repo.updateEmployee(emp.id, {
+      "full_name": emp.name,
+      "email": emp.email,
+      "phone_number": emp.phone,
+      "role": emp.role,
+      "status": emp.status,
+    });
+
+    // 🔄 refresh list after update
+    loadEmployees();
+  } catch (e) {
+    print("Update Error: $e");
+  }
+}
 
   ////////////////////////////////////////////////
   /// DELETE
   ////////////////////////////////////////////////
-  void deleteEmployee(String empId) {
-    final updatedList =
-        state.employees.where((e) => e.id != empId).toList();
-
-    emit(state.copyWith(employees: updatedList));
+  Future<void> deleteEmployee(int id) async {
+    await repo.deleteEmployee(id);
+    loadEmployees();
   }
 }

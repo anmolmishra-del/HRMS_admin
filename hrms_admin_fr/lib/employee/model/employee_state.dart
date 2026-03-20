@@ -1,23 +1,34 @@
-import 'package:hrms_admin_fr/employee/model/employee.dart';
-
-enum EmployeeStatus { initial, loading, success }
+import '../model/employee.dart';
 
 class EmployeeState {
   final List<Employee> employees;
-  final EmployeeStatus status;
+  final List<Employee> filteredEmployees;
 
-  EmployeeState({
+  final String roleFilter;
+  final String statusFilter;
+  final String search;
+
+  const EmployeeState({
     this.employees = const [],
-    this.status = EmployeeStatus.initial,
+    this.filteredEmployees = const [],
+    this.roleFilter = "all",
+    this.statusFilter = "all",
+    this.search = "",
   });
 
   EmployeeState copyWith({
     List<Employee>? employees,
-    EmployeeStatus? status,
+    List<Employee>? filteredEmployees,
+    String? roleFilter,
+    String? statusFilter,
+    String? search,
   }) {
     return EmployeeState(
       employees: employees ?? this.employees,
-      status: status ?? this.status,
+      filteredEmployees: filteredEmployees ?? this.filteredEmployees,
+      roleFilter: roleFilter ?? this.roleFilter,
+      statusFilter: statusFilter ?? this.statusFilter,
+      search: search ?? this.search,
     );
   }
 }
