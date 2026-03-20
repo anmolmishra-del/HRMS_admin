@@ -46,7 +46,8 @@ class LoginPage extends StatelessWidget {
                   width: screenWidth < 600
                       ? screenWidth * 0.9 : (screenWidth * 0.35).clamp(400, 700),
                       // : (400 * scale), // 🔥 scaled container
-                  child: Column(
+                  child: Column( 
+                    
                     mainAxisSize: MainAxisSize.min,
                     children: [
 Text(
@@ -65,7 +66,7 @@ Text(
       style: TextStyle(
         fontSize: 14 * scale,
         color: Colors.grey.shade600,
-        fontWeight: FontWeight.bold,
+        fontWeight : FontWeight.bold,
       ),
     ),
     SizedBox(height: 35 ),
