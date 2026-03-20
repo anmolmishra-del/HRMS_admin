@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hrms_admin_fr/employee/presentation/home_page.dart';
 import 'package:hrms_admin_fr/login/presentation/login_page.dart';
-
+import 'package:hrms_admin_fr/employee/cubit/employee_cubit.dart';
 
 class AppRoutes {
   static const login = '/';
@@ -9,10 +11,17 @@ class AppRoutes {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case login:
-        return MaterialPageRoute(builder: (_) =>  LoginPage());
+        return MaterialPageRoute(
+          builder: (_) => LoginPage(),
+        );
 
-      // case home:
-      //   return MaterialPageRoute(builder: (_) => const HomePage());
+      case home:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (_) => EmployeeCubit(),
+            child: const HomePage(),
+          ),
+        );
 
       default:
         return MaterialPageRoute(

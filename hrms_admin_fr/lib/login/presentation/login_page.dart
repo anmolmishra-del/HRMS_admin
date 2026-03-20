@@ -18,12 +18,12 @@ class LoginPage extends StatelessWidget {
         body: BlocListener<LoginCubit, LoginState>(
           listener: (context, state) {
             if (state.status == LoginStatus.success) {
-              // ✅ Handle success (navigation)
+             
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(content: Text("Login Success")),
               );
 
-              // Navigator.pushReplacement(...)
+            
               Navigator.pushReplacementNamed(context, AppRoutes.home);
             }
 

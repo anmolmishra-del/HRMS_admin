@@ -12,6 +12,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(
+        useMaterial3: true
+      ),
       title:"HRMS Admin",
       debugShowCheckedModeBanner: false,
       initialRoute: AppRoutes.login,
