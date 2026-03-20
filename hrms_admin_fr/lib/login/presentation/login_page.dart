@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hrms_admin_fr/login/model/login_state.dart';
+import 'package:hrms_admin_fr/routes/app_routes.dart';
 import '../cubit/login_cubit.dart';
 
 class LoginPage extends StatelessWidget {
@@ -23,6 +24,7 @@ class LoginPage extends StatelessWidget {
               );
 
               // Navigator.pushReplacement(...)
+              Navigator.pushReplacementNamed(context, AppRoutes.home);
             }
 
             if (state.status == LoginStatus.error) {
