@@ -14,7 +14,6 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
 
-    // 🔥 Scale factor
     double scale = screenWidth / 400;
     if (scale < 0.8) scale = 0.8;
     if (scale > 1.3) scale = 1.3;
@@ -45,7 +44,7 @@ class LoginPage extends StatelessWidget {
                 return SizedBox(
                   width: screenWidth < 600
                       ? screenWidth * 0.9 : (screenWidth * 0.35).clamp(400, 700),
-                      // : (400 * scale), // 🔥 scaled container
+                  
                   child: Column( 
                     
                     mainAxisSize: MainAxisSize.min,
@@ -106,7 +105,7 @@ Text(
 
                       SizedBox(height: 10 * scale),
 
-                      /// 🔒 Password Field
+                   
                       TextField(
                         controller: passwordController,
                         obscureText: true,

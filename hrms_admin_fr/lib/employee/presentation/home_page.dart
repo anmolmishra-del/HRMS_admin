@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hrms_admin_fr/employee/presentation/employee_form_dialog.dart';
 import 'employee_list_page.dart';
 
 class HomePage extends StatelessWidget {
@@ -10,7 +11,7 @@ class HomePage extends StatelessWidget {
       backgroundColor: Colors.white,
       body: Row(
         children: [
-                  Container(
+          Container(
             width: 220,
             color: const Color(0xFF1E293B),
             child: Column(
@@ -34,16 +35,14 @@ class HomePage extends StatelessWidget {
             ),
           ),
 
-     
           Expanded(
             child: Column(
               children: [
-              
                 Container(
                   height: 60,
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   color: Colors.white,
-                  child: const Row(
+                  child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
@@ -53,15 +52,32 @@ class HomePage extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
+                      Spacer(),
+                      ElevatedButton.icon(
+                        onPressed: () => EmployeeFormDialog.show(context),
+                        icon: const Icon(Icons.add),
+                        label: const Text("Add Employee"),
+                        style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 12,
+                          ),
+                          backgroundColor: Colors.blue.shade600,
+                          foregroundColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 20),
+
                       CircleAvatar(child: Icon(Icons.person)),
                     ],
                   ),
                 ),
 
                 // Content
-                const Expanded(
-                  child: EmployeeListPage(),
-                ),
+                const Expanded(child: EmployeeListPage()),
               ],
             ),
           ),

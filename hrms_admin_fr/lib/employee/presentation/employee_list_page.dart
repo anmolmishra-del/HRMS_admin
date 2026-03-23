@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hrms_admin_fr/employee/presentation/employee_form_dialog.dart';
 import '../cubit/employee_cubit.dart';
 import '../model/employee.dart';
 import '../model/employee_state.dart';
@@ -7,116 +8,7 @@ import '../model/employee_state.dart';
 class EmployeeListPage extends StatelessWidget {
   const EmployeeListPage({super.key});
 
-  //////////////////////////////////////////////////////////
-  /// EDIT DIALOG
-  //////////////////////////////////////////////////////////
-  void openEditDialog(BuildContext context, Employee emp) {
-    final nameController = TextEditingController(text: emp.name);
-    final emailController = TextEditingController(text: emp.email);
-    final phoneController = TextEditingController(text: emp.phone);
 
-    String selectedRole = emp.role;
-    String selectedStatus = emp.status;
-
-    showDialog(
-      context: context,
-      builder: (_) {
-        return AlertDialog(
-          title: const Text("Edit Employee"),
-          content: StatefulBuilder(
-            builder: (context, setStateDialog) {
-              return SizedBox(
-                width: 400,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    TextField(
-                      controller: nameController,
-                      decoration: const InputDecoration(labelText: "Name"),
-                    ),
-                    const SizedBox(height: 10),
-
-                    TextField(
-                      controller: emailController,
-                      decoration: const InputDecoration(labelText: "Email"),
-                    ),
-                    const SizedBox(height: 10),
-
-                    TextField(
-                      controller: phoneController,
-                      decoration: const InputDecoration(labelText: "Phone"),
-                    ),
-                    const SizedBox(height: 10),
-
-                    /////////////////////////////////////////////
-                    /// ROLE
-                    /////////////////////////////////////////////
-                    DropdownButtonFormField<String>(
-                      value: selectedRole,
-                      decoration: const InputDecoration(labelText: "Role"),
-                      items: const [
-                        DropdownMenuItem(value: "admin", child: Text("Admin")),
-                        DropdownMenuItem(value: "manager", child: Text("Manager")),
-                        DropdownMenuItem(value: "employee", child: Text("Employee")),
-                      ],
-                      onChanged: (val) {
-                        setStateDialog(() => selectedRole = val!);
-                      },
-                    ),
-                    const SizedBox(height: 10),
-
-                    /////////////////////////////////////////////
-                    /// STATUS
-                    /////////////////////////////////////////////
-                    DropdownButtonFormField<String>(
-                      value: selectedStatus,
-                      decoration: const InputDecoration(labelText: "Status"),
-                      items: const [
-                        DropdownMenuItem(value: "active", child: Text("Active")),
-                        DropdownMenuItem(value: "inactive", child: Text("Inactive")),
-                        DropdownMenuItem(value: "suspended", child: Text("Suspended")),
-                      ],
-                      onChanged: (val) {
-                        setStateDialog(() => selectedStatus = val!);
-                      },
-                    ),
-                  ],
-                ),
-              );
-            },
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text("Cancel"),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                context.read<EmployeeCubit>().updateEmployee(
-                      Employee(
-                        id: emp.id,
-                        employeeId: emp.employeeId,
-                        name: nameController.text,
-                        email: emailController.text,
-                        phone: phoneController.text,
-                        role: selectedRole,
-                        status: selectedStatus,
-                      ),
-                    );
-
-                Navigator.pop(context);
-              },
-              child: const Text("Save"),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  //////////////////////////////////////////////////////////
-  /// ROLE CHIP
-  //////////////////////////////////////////////////////////
   Widget roleChip(String role) {
     Color color = role == "admin"
         ? Colors.purple
@@ -269,7 +161,7 @@ class EmployeeListPage extends StatelessWidget {
                                 IconButton(
                                   icon: const Icon(Icons.edit, color: Colors.blue),
                                   onPressed: () =>
-                                      openEditDialog(context, emp),
+                                       EmployeeFormDialog.show(context, employee: emp),
                                 ),
                                 IconButton(
                                   icon: const Icon(Icons.delete, color: Colors.red),
