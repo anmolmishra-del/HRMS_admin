@@ -69,7 +69,7 @@ Text(
       ),
     ),
     SizedBox(height: 35 ),
-                      /// 📧 Email Field
+                      
                       TextField(
                         controller: emailController,
                         keyboardType: TextInputType.emailAddress,
@@ -146,7 +146,7 @@ Text(
                           : SizedBox(
                               width: screenWidth < 600
                                   ? (screenWidth * 0.7)
-        : (300 * scale).clamp(220, 350),// 🔥 controlled button width
+        : (300 * scale).clamp(220, 350),
                               height: 50 * scale,
                               child: ElevatedButton(
                                 onPressed: () {

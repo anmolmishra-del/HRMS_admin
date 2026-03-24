@@ -51,7 +51,7 @@ class EmployeeCubit extends Cubit<EmployeeState> {
       final matchStatus =
           newStatus == "all" || emp.status == newStatus;
 
-      final matchSearch = emp.name
+      final matchSearch = emp.firstName
           .toLowerCase()
           .contains(newSearch.trim().toLowerCase());
 
@@ -90,12 +90,13 @@ class EmployeeCubit extends Cubit<EmployeeState> {
       emit(state.copyWith(status: EmployeeStatus.loading));
 
       await repo.updateEmployee(emp.id, {
-        "full_name": emp.name,
-        "email": emp.email,
-        "phone_number": emp.phone,
-        "role": emp.role,
-        "status": emp.status,
-      });
+  "first_name": emp.firstName,
+  "last_name": emp.lastName,
+  "email": emp.email,
+  "phone_number": emp.phone,
+  "role": emp.role,
+  "status": emp.status,
+});
 
       await loadEmployees();
     } catch (e) {

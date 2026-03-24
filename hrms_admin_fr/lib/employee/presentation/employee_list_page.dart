@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hrms_admin_fr/employee/presentation/employee_form_dialog.dart';
 import '../cubit/employee_cubit.dart';
-import '../model/employee.dart';
+
 import '../model/employee_state.dart';
 
 class EmployeeListPage extends StatelessWidget {
@@ -52,9 +52,7 @@ class EmployeeListPage extends StatelessWidget {
     );
   }
 
-  //////////////////////////////////////////////////////////
-  /// UI
-  //////////////////////////////////////////////////////////
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<EmployeeCubit, EmployeeState>(
@@ -63,9 +61,7 @@ class EmployeeListPage extends StatelessWidget {
           padding: const EdgeInsets.all(20),
           child: Column(
             children: [
-              /////////////////////////////////////////////
-              /// FILTER BAR
-              /////////////////////////////////////////////
+           
               Row(
                 children: [
                   Expanded(
@@ -120,9 +116,7 @@ class EmployeeListPage extends StatelessWidget {
 
               const SizedBox(height: 20),
 
-              /////////////////////////////////////////////
-              /// TABLE
-              /////////////////////////////////////////////
+          
               Expanded(
                 child: Container(
                   decoration: BoxDecoration(
@@ -149,7 +143,7 @@ class EmployeeListPage extends StatelessWidget {
                         return DataRow(
                           cells: [
                             DataCell(Text(emp.employeeId)),
-                            DataCell(Text(emp.name)),
+                           DataCell(Text("${emp.firstName} ${emp.lastName}")),
                             DataCell(Text(emp.email)),
                             DataCell(Text(emp.phone)),
 

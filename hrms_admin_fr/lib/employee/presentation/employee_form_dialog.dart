@@ -7,12 +7,17 @@ class EmployeeFormDialog {
   static void show(BuildContext context, {Employee? employee}) {
     final isEdit = employee != null;
 
-    final nameController =
-        TextEditingController(text: employee?.name ?? "");
+    // final nameController =
+    //     TextEditingController(text: employee?.name ?? "");
     final emailController =
         TextEditingController(text: employee?.email ?? "");
     final phoneController =
         TextEditingController(text: employee?.phone ?? "");
+        final firstNameController =
+    TextEditingController(text: employee?.firstName ?? "");
+
+final lastNameController =
+    TextEditingController(text: employee?.lastName ?? "");
 
     String selectedRole = employee?.role ?? "employee";
     String selectedStatus = employee?.status ?? "active";
@@ -33,10 +38,23 @@ class EmployeeFormDialog {
                     /////////////////////////////////////////////
                     /// NAME
                     /////////////////////////////////////////////
-                    TextField(
-                      controller: nameController,
-                      decoration: const InputDecoration(labelText: "Name"),
-                    ),
+                 Row(
+  children: [
+    Expanded(
+      child: TextField(
+        controller: firstNameController,
+        decoration: const InputDecoration(labelText: "First Name"),
+      ),
+    ),
+    const SizedBox(width: 10),
+    Expanded(
+      child: TextField(
+        controller: lastNameController,
+        decoration: const InputDecoration(labelText: "Last Name"),
+      ),
+    ),
+  ],
+),
                     const SizedBox(height: 10),
 
                     /////////////////////////////////////////////
@@ -116,7 +134,8 @@ class EmployeeFormDialog {
                     Employee(
                       id: employee.id,
                       employeeId: employee.employeeId,
-                      name: nameController.text,
+                      firstName: firstNameController.text,
+lastName: lastNameController.text,
                       email: emailController.text,
                       phone: phoneController.text,
                       role: selectedRole,
@@ -124,16 +143,14 @@ class EmployeeFormDialog {
                     ),
                   );
                 } else {
-                  ///////////////////////////////////////
-                  /// CREATE
-                  ///////////////////////////////////////
-                  cubit.createEmployee({
-                    "full_name": nameController.text,
-                    "email": emailController.text,
-                    "phone_number": phoneController.text,
-                    "role": selectedRole,
-                    "status": selectedStatus,
-                  });
+                cubit.createEmployee({
+  "first_name": firstNameController.text.trim(),
+  "last_name": lastNameController.text.trim(),
+  "email": emailController.text,
+  "phone_number": phoneController.text,
+  "role": selectedRole,
+  "status": selectedStatus,
+});
                 }
 
                 Navigator.pop(context);
