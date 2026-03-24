@@ -11,9 +11,7 @@ class EmployeeCubit extends Cubit<EmployeeState> {
     loadEmployees();
   }
 
-  //////////////////////////////////////////////////////////
-  /// LOAD EMPLOYEES
-  //////////////////////////////////////////////////////////
+
   Future<void> loadEmployees() async {
     try {
       emit(state.copyWith(status: EmployeeStatus.loading));
